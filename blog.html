@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Section</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLpQ3p2vYw65f5a8+x7Xy3a2uVz2a6nC5h2Cq8x+2y9a3a9j3l3k6V4k3gD2g3c7j7c8o..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            background-image: url('/images/background.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            color: aliceblue;
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+            z-index: 50;
+        }
+        .modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+        }
+        .prose img {
+            max-width: 100%;
+            height: auto;
+        }
+        /* Custom styles for the accordion effect */
+        .category-content.is-closed {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-out;
+        }
+        .category-content.is-open {
+            max-height: 5000px; /* A large value to ensure content is visible */
+            transition: max-height 0.5s ease-in;
+        }
+        .category-header {
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .category-header:hover {
+            color: #60a5fa;
+        }
+    </style>
+</head>
+<body class="antialiased text-gray-300">
+
+    <header class="bg-gray-900 p-6 shadow-lg fixed w-full z-50">
+        <div class="container mx-auto flex justify-between items-center">
+            <a href="index.html" class="text-2xl font-extrabold text-green-400 hover:text-blue-500 transition-colors duration-300">DISCIPLES</a>
+        </div>
+        <div class="w-full flex justify-center py-2 bg-gray-900 bg-opacity-50">
+            <a href="https://web.facebook.com/profile.php?id=100078647096954" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-2xl"></i></a>
+            <a href="https://www.instagram.com/malvinchemyroof/?hl=en" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-instagram text-2xl"></i></a>
+            <a href="https://www.tiktok.com/@txrdigital1?lang=en-GB" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-tiktok text-2xl"></i></a>
+            <a href="https://wa.me/+27687571798" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-whatsapp text-2xl"></i></a>
+        </div>
+    </header>
+
+    <main class="pt-24 pb-12" style=" background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-8">
+            <header class="text-center mb-12">
+                <h1 class="text-2xl sm:text-5xl font-extrabold text-green-400 mb-4">Our Blog</h1>
+                <p class="text-lg text-white-400 max-w-2xl mx-auto">
+                    Discover the latest insights, projects, and stories we got for you.
+                </p>
+            </header>
+
+            <main id="articles-container">
+                </main>
+        </div>
+    </main>
+    
+    <footer class="bg-gray-900 b-0 text-aliceblue py-8 text-center" style="z-index: 999; position: relative;">
+        <a href="admin.html" class="text-sm hover:text-blue-400 transition-colors">
+            &copy; 2025 disciples. All rights reserved.
+        </a>
+    </footer>
+
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="bg-gray-900 rounded-xl p-8 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95" onclick="event.stopPropagation()">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-white hover:text-red-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div id="modal-content">
+                </div>
+        </div>
+    </div>
+    
+    <script type="module" src="js/blog.js"></script>
+</body>
+</html>

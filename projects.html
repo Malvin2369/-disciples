@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog Section</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLpQ3p2vYw65f5a8+x7Xy3a2uVz2a6nC5h2Cq8x+2y9a3a9j3l3k6V4k3gD2g3c7j7c8o..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000;
+            background-image: url('/images/background.jpeg');
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-attachment: fixed;
+            color: aliceblue;
+            overflow-x: hidden;
+            position: relative;
+        }
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent black overlay */
+            z-index: -1;
+        }
+        .gradient-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+        }
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+        }
+    </style>
+    <script type="module" src="js/projects.js"></script>
+</head>
+<body class="min-h-screen antialiased">
+    <!-- Gradient overlay for the entire page -->
+    <div class="fixed inset-0 gradient-overlay z-0"></div>
+
+    <header class="fixed top-0 left-0 w-full bg-black backdrop-blur-md shadow-lg z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+           <a href="index.html"> <h1 class="text-2xl font-bold text-green-400">disciples</h1></a>
+        </div>
+        <!-- Social Media Icons Row -->
+        <div class="w-full flex justify-center py-2 bg-black bg-opacity-50">
+            <a href="https://web.facebook.com/profile.php?id=100078647096954" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-2xl"></i></a>
+            <a href="https://www.instagram.com/malvinchemyroof/?hl=en" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-instagram text-2xl"></i></a>
+            <a href="https://www.tiktok.com/@txrdigital1?lang=en-GB" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-tiktok text-2xl"></i></a>
+            <a href="https://wa.me/+27687571798" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-whatsapp text-2xl"></i></a>
+        </div>
+    </header>
+
+    <main class="relative z-10 pt-20">
+        <div class="max-w-7xl mx-auto py-12 px-4 sm:px-8">
+            <!-- Header Section -->
+            <header class="text-center mb-12">
+                <h1 class="text-2xl sm:text-2xl font-extrabold text-green-400 mb-4">Portfolio and Projects</h1>
+                <p class="text-lg text-gray-400 max-w-2xl mx-auto">
+               At The Disciples, we believe in a holistic path to empowerment—addressing immediate crisis while building long-term resilience. Our projects are strategically divided into two core areas: Humanitarian Support, which provides essential aid like food and clothing; and Future Empowerment, which focuses on vocational skills training and 4IR-ready initiatives, including the revolutionary TXR Digital Hubs. Explore our work below to see how we are forging resilient, skilled, and dignified communities across South Africa.
+                </p>
+            </header>
+
+            <!-- Articles Grid -->
+            <main id="articles-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Article cards will be injected here by the script -->
+            </main>
+        </div>
+    </main>
+    
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-aliceblue py-8 text-center" style="z-index: 999; position: relative;">
+        <p class="text-sm">&copy; 2025 mmyroof. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal for Blog Post Details -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="bg-gray-900 rounded-xl p-8 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95" onclick="event.stopPropagation()">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-white hover:text-red-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+</body>
+</html>

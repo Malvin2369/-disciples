@@ -1,0 +1,677 @@
+
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>the disciples</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" xintegrity="sha512-iecdLpQ3p2vYw65f5a8+x7Xy3a2uVz2a6nC5h2Cq8x+2y9a3a9j3l3k6V4k3gD2g3c7j7c8o..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(180deg, #1e0040, #000000);
+            color: aliceblue;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+        .hero-bg {
+            background-image: url('/images/background.jpeg');
+            background-size: cover;
+            background-position: center;
+        }
+        .gradient-overlay {
+            background: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.1) 100%);
+        }
+        /* Mobile menu slide-in/slide-out animation */
+        .mobile-menu-transition {
+            transition: transform 0.3s ease-in-out;
+            transform: translateX(100%);
+            visibility: hidden;
+        }
+        .mobile-menu-transition.is-open {
+            transform: translateX(0);
+            visibility: visible;
+        }
+        /* Modal overlay */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0s 0.3s;
+        }
+        .modal-overlay.is-visible {
+            opacity: 1;
+            visibility: visible;
+            transition: opacity 0.3s ease;
+        }
+        /* New CSS for the Carousel */
+        .carousel-slide-bg {
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+        [data-slide] {
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        [data-slide][data-active] {
+            opacity: 1;
+        }
+        .weather-container {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+            transition: box-shadow 0.3s ease;
+        }
+        .about-glow {
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.8);
+            transition: box-shadow 0.3s ease;
+        }
+        /* New CSS for the Weather Widget */
+        #weather-widget {
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #weather-widget:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.7);
+        }
+        .futuristic-text {
+            text-shadow: 0 0 10px rgba(59, 130, 246, 0.8);
+        }
+        .shimmer-bg {
+            background-image: linear-gradient(
+                -45deg,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0.05) 50%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            background-size: 200% 200%;
+            animation: shimmer 10s linear infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 100% 100%; }
+            100% { background-position: 0% 0%; }
+        }
+        
+        .weather-icon {
+            filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+        }
+
+        /* Weather Modal Specific Styles */
+        .forecast-grid {
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        }
+    </style>
+</head>
+<body class="min-h-screen antialiased hero-bg" style="background-attachment: fixed;">
+    <script type="module">
+        // Blog Article Content - Replaced with a simple object for static content
+        const blogArticles = {
+            'ai-in-education': {
+                title: 'Bridging the Gap: AI and the Future of Education',
+                date: 'August 22, 2025',
+                fullContent: `<img src="/images/image1.jpg" alt="AI assisting in a learning environment" class="my-6 rounded-lg"/><p>The integration of Artificial Intelligence (AI) into the education sector represents a seismic shift in how we learn and teach. AI tools are no longer a futuristic concept but a present-day reality, offering personalized learning paths, automated grading, and intelligent tutoring systems. 
+                    These technologies can adapt to individual student needs, providing tailored content and feedback that a single teacher in a crowded classroom simply cannot. For instance, 
+                    AI-powered platforms can identify a student's learning gaps and provide supplementary materials to address them, ensuring no student is left behind.</p>
+                <p>However, this revolution is not without its challenges. The digital divide remains a significant barrier, especially in South Africa's marginalized communities, where access to technology and reliable internet is not a given. As an advocate for the Fourth Industrial Revolution (4IR), my work focuses on democratizing this access. By establishing Digital Empowerment Hubs, we aim to provide the necessary infrastructure and training to ensure that all students, 
+                    regardless of their background, can benefit from these technological advancements. The future of education is collaborative, with AI and human educators working together to create a more effective, equitable, and engaging learning environment for everyone.</p>
+                `
+            },
+            '4ir-in-africa': {
+                title: 'Driving Change: The Promise of 4IR in South Africa',
+                date: 'August 15, 2025',
+                fullContent: `<img src="/images/printing.png" alt="3D Printing in Africa" class="my-6 rounded-lg"/><p>The Fourth Industrial Revolution (4IR) is not just a global phenomenon; it's a critical opportunity for South Africa. Technologies such as the Internet of Things (IoT), Virtual Reality (VR), Augmented Reality (AR), and 3D printing are poised to transform our economy and society. These innovations hold the key to addressing long-standing challenges in healthcare, agriculture, and urban development. Imagine IoT sensors optimizing crop yields in rural farms or VR training simulations preparing young people for jobs in a rapidly evolving job market. The potential is immense, but so is the need for strategic implementation.</p>
+                <p>My work with Project #DIGITAL and Roofx Technology is centered on this vision. We are committed to moving beyond theoretical discussions and focusing on practical, hands-on application of these technologies. Through our initiatives, we are equipping the next generation with the digital skills needed to become creators, not just consumers, of technology. By fostering a culture of innovation and providing access to the right tools, we can unlock the full potential of South Africa's vibrant and talented youth. This is how we ensure that the promise of 4IR is a reality for all South Africans.</p>
+                
+                `
+            },
+            '3d-printing-communities': {
+                title: 'The Role of 3D Printing in Empowering Local Communities',
+                date: 'August 8, 2025',
+                fullContent: `<img src="/images/custom.jpeg" alt="Community members using a 3D printer" class="my-6 rounded-lg"/><p>While often seen as a high-tech manufacturing tool, 3D printing holds incredible potential for local community empowerment. It is a technology that democratizes production, allowing individuals and small businesses to design and create physical objects on-demand, from medical supplies and replacement parts to art and educational models. This capability reduces reliance on large-scale factories and global supply chains, fostering local entrepreneurship and self-sufficiency.</p>
+                <p>In our Digital Empowerment Hubs, 3D printers are a cornerstone of our curriculum. We teach students and community members not only how to operate the machines but also how to design objects using software. This process transforms them from passive users into active innovators. For example, a community can print custom tools for agriculture, create prototypes for a small business, or even produce affordable prosthetics. By making this technology accessible, we are not just teaching a skill; we are sparking a revolution in local production and creativity, one print at a time.</p>
+                
+                `
+            }
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- Hamburger Menu Logic ---
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const closeMenuBtn = document.getElementById('close-mobile-menu-btn');
+
+            if (mobileMenuBtn && mobileMenu && closeMenuBtn) {
+                mobileMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.add('is-open');
+                });
+                
+                closeMenuBtn.addEventListener('click', () => {
+                    mobileMenu.classList.remove('is-open');
+                });
+
+                document.querySelectorAll('#mobile-menu a').forEach(link => {
+                    link.addEventListener('click', () => {
+                        mobileMenu.classList.remove('is-open');
+                    });
+                });
+            } else {
+                console.error("Hamburger menu elements not found. Check your HTML IDs.");
+            }
+
+            // --- Modal Logic for blog posts and weather---
+            const modalOverlay = document.getElementById('modal-overlay');
+            const modalContent = document.getElementById('modal-content');
+            const closeModalBtn = document.getElementById('close-modal-btn');
+            
+            function openModal(data) {
+                if (!modalContent || !modalOverlay) {
+                    console.error('Modal elements not found!');
+                    return;
+                }
+                
+                let modalHtml = '';
+                if (data.type === 'blog') {
+                    modalHtml = `
+                        <div class="text-white">
+                            <h3 class="text-2xl font-bold mb-4 text-blue-400">${data.title}</h3>
+                            <div class="prose prose-invert max-w-none text-gray-300">
+                                ${data.content}
+                            </div>
+                        </div>
+                    `;
+                } else if (data.type === 'weather') {
+                    modalHtml = `
+                        <div class="text-white text-center">
+                            <h3 class="text-2xl font-bold mb-2 text-blue-400 futuristic-text">5-Day Forecast</h3>
+                            <p class="text-lg text-gray-300 mb-6">Location: ${data.location}</p>
+                            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 forecast-grid">
+                                ${data.forecast.map(day => `
+                                    <div class="bg-gray-800 p-4 rounded-xl shadow-xl transition-all duration-300 transform hover:scale-105">
+                                        <p class="font-bold text-sm text-gray-400">${day.date}</p>
+                                        <div class="my-2 text-3xl weather-icon">${day.icon}</div>
+                                        <p class="text-lg font-bold">${day.temp}°C</p>
+                                        <p class="text-sm text-gray-400">${day.description}</p>
+                                    </div>
+                                `).join('')}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                modalContent.innerHTML = modalHtml;
+                modalOverlay.classList.add('is-visible');
+                document.body.style.overflow = 'hidden';
+            }
+
+            closeModalBtn.addEventListener('click', () => {
+                modalOverlay.classList.remove('is-visible');
+                document.body.style.overflow = '';
+            });
+
+            modalOverlay.addEventListener('click', (e) => {
+                if (e.target === modalOverlay) {
+                    modalOverlay.classList.remove('is-visible');
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Attach event listeners to blog post cards
+            document.querySelectorAll('.blog-post-card').forEach(card => {
+                card.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    const articleId = card.dataset.articleId;
+                    const article = blogArticles[articleId];
+                    if (article) {
+                        openModal({ type: 'blog', title: article.title, content: article.fullContent });
+                    }
+                });
+            });
+
+            // --- Carousel Logic ---
+            const carousel = document.querySelector('[data-carousel]');
+            if (carousel) {
+                const slides = [...carousel.querySelectorAll('[data-slide]')];
+                let currentIndex = 0;
+                const intervalTime = 3000; // 3 seconds
+
+                function setBackgrounds() {
+                    slides.forEach(slide => {
+                        const imageUrl = slide.dataset.image;
+                        if (imageUrl) {
+                            slide.style.backgroundImage = `url(${imageUrl})`;
+                        }
+                    });
+                }
+
+                function showSlide(index) {
+                    slides.forEach((slide, i) => {
+                        if (i === index) {
+                            slide.dataset.active = true;
+                        } else {
+                            delete slide.dataset.active;
+                        }
+                    });
+                }
+
+                function nextSlide() {
+                    currentIndex = (currentIndex + 1) % slides.length;
+                    showSlide(currentIndex);
+                }
+
+                setBackgrounds();
+                showSlide(currentIndex);
+                setInterval(nextSlide, intervalTime);
+            }
+
+            // --- Weather Widget Logic ---
+            const weatherWidget = document.getElementById('weather-widget');
+            const openWeatherApiKey = 'b89cf7b5c67cc89b56f90e9091311ec7'; // Replace with your actual API key
+            let userLocation = 'Johannesburg,ZA'; // Default location
+
+            async function getUserLocation() {
+                return new Promise((resolve, reject) => {
+                    if (navigator.geolocation) {
+                        navigator.geolocation.getCurrentPosition(
+                            async (position) => {
+                                try {
+                                    const lat = position.coords.latitude;
+                                    const lon = position.coords.longitude;
+                                    const geoResponse = await fetch(`https://api.openweathermap.org/geo/1.0/reverse?lat=${lat}&lon=${lon}&limit=1&appid=${'b89cf7b5c67cc89b56f90e9091311ec7'}`);
+                                    const geoData = await geoResponse.json();
+                                    if (geoData && geoData.length > 0) {
+                                        userLocation = `${geoData[0].name},${geoData[0].country}`;
+                                        resolve(userLocation);
+                                    } else {
+                                        resolve(userLocation); // Fallback to default
+                                    }
+                                } catch (error) {
+                                    console.error('Geolocation API error:', error);
+                                    resolve(userLocation); // Fallback
+                                }
+                            },
+                            () => {
+                                console.log('Geolocation permission denied or not supported. Using default location.');
+                                resolve(userLocation); // Fallback
+                            }
+                        );
+                    } else {
+                        console.log('Geolocation is not supported by this browser. Using default location.');
+                        resolve(userLocation); // Fallback
+                    }
+                });
+            }
+
+            async function fetchWeatherData(location) {
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${'Johannesburg,ZA'}&units=metric&appid=${'b89cf7b5c67cc89b56f90e9091311ec7'}`);
+                    if (!response.ok) {
+                        throw new Error(`Weather API error: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.error('Failed to fetch weather data:', error);
+                    return null;
+                }
+            }
+
+            async function fetchForecastData(location) {
+                try {
+                    const response = await fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${'Johannesburg,ZA'}&units=metric&appid=${'b89cf7b5c67cc89b56f90e9091311ec7'}`);
+                    if (!response.ok) {
+                        throw new Error(`Forecast API error: ${response.statusText}`);
+                    }
+                    const data = await response.json();
+                    
+                    const dailyForecast = {};
+                    data.list.forEach(forecast => {
+                        const date = new Date(forecast.dt * 1000).toLocaleDateString('en-US', { weekday: 'short', day: 'numeric' });
+                        if (!dailyForecast[date]) {
+                            dailyForecast[date] = {
+                                temp: Math.round(forecast.main.temp),
+                                description: forecast.weather[0].description,
+                                icon: getWeatherIcon(forecast.weather[0].main)
+                            };
+                        }
+                    });
+                    return dailyForecast;
+                } catch (error) {
+                    console.error('Failed to fetch forecast data:', error);
+                    return null;
+                }
+            }
+
+            function getWeatherIcon(weatherMain) {
+                switch (weatherMain) {
+                    case 'Clear': return '☀️';
+                    case 'Clouds': return '☁️';
+                    case 'Rain': return '🌧️';
+                    case 'Drizzle': return '🌦️';
+                    case 'Thunderstorm': return '⛈️';
+                    case 'Snow': return '❄️';
+                    case 'Mist':
+                    case 'Smoke':
+                    case 'Haze':
+                    case 'Dust':
+                    case 'Fog': return '🌫️';
+                    default: return '🌈';
+                }
+            }
+            
+            function updateDateTime() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+                const dateString = now.toLocaleDateString('en-US', { weekday: 'long', day: 'numeric', month: 'long' });
+                document.getElementById('current-time').textContent = timeString;
+                document.getElementById('current-date').textContent = dateString;
+            }
+
+            async function updateWeatherWidget() {
+                const locationDisplay = document.getElementById('current-location');
+                if (locationDisplay) {
+                    locationDisplay.textContent = userLocation.split(',')[0];
+                }
+
+                const data = await fetchWeatherData(userLocation);
+                if (data) {
+                    const weatherMain = data.weather[0].main;
+                    const temp = Math.round(data.main.temp);
+                    const icon = getWeatherIcon(weatherMain);
+                    document.getElementById('current-temp').textContent = `${temp}°C`;
+                    document.getElementById('weather-icon').textContent = icon;
+                }
+            }
+
+            if (weatherWidget) {
+                weatherWidget.addEventListener('click', async () => {
+                    const forecastData = await fetchForecastData(userLocation);
+                    if (forecastData) {
+                        const forecastArray = Object.keys(forecastData).slice(0, 5).map(date => ({
+                            date: date,
+                            temp: forecastData[date].temp,
+                            description: forecastData[date].description,
+                            icon: forecastData[date].icon
+                        }));
+                        openModal({
+                            type: 'weather',
+                            location: userLocation.split(',')[0],
+                            forecast: forecastArray
+                        });
+                    }
+                });
+            }
+
+            // Counters logic
+            const counters = document.querySelectorAll('.counter');
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.5
+            };
+
+            const counterObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const counter = entry.target;
+                        const target = +counter.dataset.target;
+                        let count = 0;
+                        const updateCount = () => {
+                            const increment = target / 200;
+                            if (count < target) {
+                                count += increment;
+                                counter.textContent = `${Math.ceil(count)}+`;
+                                setTimeout(updateCount, 10);
+                            } else {
+                                counter.textContent = `${target}+`;
+                            }
+                        };
+                        updateCount();
+                        observer.unobserve(counter);
+                    }
+                });
+            }, observerOptions);
+
+            counters.forEach(counter => {
+                counterObserver.observe(counter);
+            });
+
+            // Initial calls
+            getUserLocation().then(() => {
+                updateWeatherWidget();
+            });
+            updateDateTime();
+            
+            // Update time and weather every minute
+            setInterval(updateDateTime, 1000);
+            setInterval(updateWeatherWidget, 60000);
+        });
+    </script>
+    
+    <!-- Main Content Sections -->
+    <header class="fixed top-0 left-0 w-full bg-black bg-opacity-70 backdrop-blur-md shadow-lg z-50 transition-all duration-300">
+        <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-2xl font-bold text-green-400">DISCIPLES</h1>
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="text-gray-300 hover:text-blue-400 transition-colors">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+                </svg>
+            </button>
+        </div>
+        <!-- Social Media Icons Row -->
+        <div class="w-full flex justify-center py-2 bg-black bg-opacity-50">
+            <a href="https://web.facebook.com/profile.php?id=100078647096954" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-facebook text-2xl"></i></a>
+            <a href="https://www.instagram.com/malvinchemyroof/?hl=en" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-instagram text-2xl"></i></a>
+            <a href="https://www.tiktok.com/@txrdigital1?lang=en-GB" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-tiktok text-2xl"></i></a>
+            <a href="https://wa.me/+27687571798" target="_blank" class="mx-4 text-aliceblue hover:text-blue-400 transition-colors"><i class="fab fa-whatsapp text-2xl"></i></a>
+        </div>
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="fixed top-0 right-0 h-screen w-full max-w-xs shadow-inner p-8 mobile-menu-transition z-40" style=" background-color: rgba(0, 0, 0, 0.932);
+            backdrop-filter: blur(20px);">
+            <button id="close-mobile-menu-btn" class="absolute top-4 right-4 text-gray-300 hover:text-blue-400 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <nav class="flex flex-col items-center space-y-8 mt-16">
+                <a href="#hero" class="w-full text-center text-2xl py-2 text-aliceblue hover:text-blue-400 font-extrabold transition-colors duration-300">Home</a>
+                <a href="#about" class="w-full text-center text-2xl py-2 text-aliceblue hover:text-blue-400 font-extrabold transition-colors duration-300">About</a>
+                <a href="#latest-projects" class="w-full text-center text-2xl py-2 text-aliceblue hover:text-blue-400 font-extrabold transition-colors duration-300">Projects</a>
+                <a href="#latest-blog-posts" class="w-full text-center text-2xl py-2 text-aliceblue hover:text-blue-400 font-extrabold transition-colors duration-300">Blog</a>
+                <a href="#contact" class="w-full text-center text-2xl py-2 text-aliceblue hover:text-blue-400 font-extrabold transition-colors duration-300">Contact</a>
+                <a href="admin.html">Admin</a>
+            </nav>
+        </div>
+    </header>
+    
+    <!-- Gradient overlay for the entire page -->
+    <div class="fixed inset-0 gradient-overlay z-0"></div>
+
+    <main class="relative z-10 pt-2">
+        <!-- Hero Section -->
+        <section id="hero" class="relative overflow-hidden min-h-screen flex flex-col items-center justify-center p-6">
+            
+            <!-- Carousel Container -->
+            <div class="relative w-full z-10 h-[40vh] mb-8" data-carousel style="border-radius: 7px; overflow: hidden; max-width: 900px;">
+                <div class="absolute inset-0 carousel-slide-bg" data-slide data-active data-image="/images/wall1.png"></div>
+                <div class="absolute inset-0 carousel-slide-bg" data-slide data-image="/images/wall2.png"></div>
+                <div class="absolute inset-0 carousel-slide-bg" data-slide data-image="/images/wall3.png"></div>
+                <div class="absolute inset-0 carousel-slide-bg" data-slide data-image="/images/wall4.png"></div>
+                <div class="absolute inset-0 carousel-slide-bg" data-slide data-image="/images/wall5.png"></div>
+            </div>
+
+            <!-- Content Container below the carousel -->
+            <div class="relative text-center max-w-4xl mx-auto text-aliceblue z-20 weather-container" style=" background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px); padding: 40px 20px; width: 100%; border-radius: 7px;">
+                
+                <!-- Weather Widget -->
+                <div id="weather-widget" class="flex flex-col items-center justify-center transition-all duration-300">
+                    <div class="flex items-center mb-2">
+                        <span id="weather-icon" class="text-6xl mr-4 weather-icon">☀️</span>
+                        <div>
+                            <p id="current-temp" class="text-5xl font-extrabold futuristic-text">25°C</p>
+                        </div>
+                    </div>
+                    <p id="current-location" class="text-xl text-gray-300 mb-1 futuristic-text">Germiston, South Africa</p>
+                    <p id="current-time" class="text-5xl font-extrabold futuristic-text">--:--</p>
+                    <p id="current-date" class="text-xl text-gray-400 futuristic-text">--</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="py-10">
+            <div class="container mx-auto px-6 py-10 about-glow rounded-xl" style=" background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);">
+                <h3 class="text-4xl font-bold text-center mb-12 text-green-400">ABOUT US</h3>
+                <div class="grid gap-12 items-center">
+                    <div class="relative w-64 h-64 mx-auto rounded-full overflow-hidden shadow-2xl border-4 border-blue-400 animate-pulse">
+                        <img src="/images/logo.png" alt="C. Marufu Profile" class="w-full h-full object-cover"/>
+                    </div>
+                    <div class="text-lg leading-relaxed text-gray-400 space-y-4" style="text-align: justify;">
+                        <p>The Disciples is a next generation Non-Profit Organisations dedicated to forging a more resilient and dignified future for marginalized communities in South Africa. 
+                            Born from the urgent need to address the complex web of poverty and social inequality, we employ a holistic strategy that moves beyond immediate aid. We focus on providing essential humanitarian support, like food and clothing, while concurrently implementing future-focused skills training programs. Our vision is a society where every individual, regardless of their background, possesses the self-reliance, skills, and dignity needed to lead a fulfilling life, thereby reducing crime and fostering long-term social and economic upliftment.</p>
+                        <div class="grid grid-cols-1 gap-4 mt-8">
+                            <div class="text-center p-6 rounded-xl bg-gray-900 shadow-xl about-glow transition-all duration-500 transform hover:scale-105">
+                                <h3 class="text-4xl font-extrabold text-green-400 mb-2 counter" data-target="10">0+</h3>
+                                <p class="text-gray-300 text-lg">Years in Education</p>
+                            </div>
+                            <div class="text-center p-6 rounded-xl bg-gray-900 shadow-xl about-glow transition-all duration-500 transform hover:scale-105">
+                                <h3 class="text-4xl font-extrabold text-green-400 mb-2 counter" data-target="6">0+</h3>
+                                <p class="text-gray-300 text-lg">Years in Technology</p>
+                            </div>
+                            <div class="text-center p-6 rounded-xl bg-gray-900 shadow-xl about-glow transition-all duration-500 transform hover:scale-105">
+                                <h3 class="text-4xl font-extrabold text-green-400 mb-2 counter" data-target="50">0+</h3>
+                                <p class="text-gray-300 text-lg">Projects</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!--Projects Section-->
+         <section id="latest-projects" class="py-20 px-4 my-10 about-glow rounded-xl" style=" background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);">
+            <div class="container mx-auto">
+                <h2 class="text-2xl sm:text-2xl font-extrabold text-green-400 mb-6 text-center">PROJECTS</h2>
+                <main id="latest-projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </main>
+                <div class="text-center mt-12">
+                    <a href="projects.html" class="bg-gray-700 text-aliceblue font-bold px-8 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:bg-gray-600">
+                        View All Projects
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!--blog section-->
+        <section id="latest-blog-posts" class="py-20 px-4  my-10 about-glow rounded-xl" style=" background-color: rgba(0, 0, 0, 0.8); backdrop-filter: blur(5px);">
+            <div class="container mx-auto">
+                <h2 class="text-2xl sm:text-2xl font-extrabold text-green-400 mb-6 text-center">BLOG</h2>
+                <main id="latest-blog-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    </main>
+                <div class="text-center mt-12">
+                    <a href="blog.html" class="bg-gray-700 text-aliceblue font-bold px-8 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:bg-gray-600">
+                        View All Blog Posts
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-10" style=" background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);">
+            <div class="container mx-auto px-6 text-center text-aliceblue">
+                <h3 class="text-4xl font-bold mb-4 text-green-400">Let's Connect</h3>
+                <p class="text-xl max-w-2xl mx-auto mb-8 text-gray-400">
+                    We are always open to new opportunities and collaborations. Feel free to get in touch! Click the social media icons above or the buttons below
+                </p>
+                <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
+                    <a href="mailto:wedisciples45@gmail.com" class="bg-blue-600 text-aliceblue font-bold px-8 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:bg-blue-700">
+                        Email Us
+                    </a>
+                    <a href="tel:0752597987" class="bg-gray-700 text-aliceblue font-bold px-8 py-4 rounded-full shadow-lg transform transition duration-300 hover:scale-105 hover:bg-gray-600">
+                        Call Us
+                    </a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-aliceblue py-8 text-center" style="z-index: 999; position: relative;">
+        <p class="text-sm">&copy; 2025 disciples. All rights reserved.</p>
+    </footer>
+
+    <!-- Modal for Blog Post Details -->
+    <div id="modal-overlay" class="modal-overlay">
+        <div class="bg-gray-900 rounded-xl p-8 shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto transform scale-95" onclick="event.stopPropagation()">
+            <button id="close-modal-btn" class="absolute top-4 right-4 text-white hover:text-red-500 transition-colors">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <div id="modal-content"></div>
+        </div>
+    </div>
+<script type="module" src="js/latest.js"></script>    
+<!-- Code injected by live-server -->
+<script>
+	// <![CDATA[  <-- For SVG support
+	if ('WebSocket' in window) {
+		(function () {
+			function refreshCSS() {
+				var sheets = [].slice.call(document.getElementsByTagName("link"));
+				var head = document.getElementsByTagName("head")[0];
+				for (var i = 0; i < sheets.length; ++i) {
+					var elem = sheets[i];
+					var parent = elem.parentElement || head;
+					parent.removeChild(elem);
+					var rel = elem.rel;
+					if (elem.href && typeof rel != "string" || rel.length == 0 || rel.toLowerCase() == "stylesheet") {
+						var url = elem.href.replace(/(&|\?)_cacheOverride=\d+/, '');
+						elem.href = url + (url.indexOf('?') >= 0 ? '&' : '?') + '_cacheOverride=' + (new Date().valueOf());
+					}
+					parent.appendChild(elem);
+				}
+			}
+			var protocol = window.location.protocol === 'http:' ? 'ws://' : 'wss://';
+			var address = protocol + window.location.host + window.location.pathname + '/ws';
+			var socket = new WebSocket(address);
+			socket.onmessage = function (msg) {
+				if (msg.data == 'reload') window.location.reload();
+				else if (msg.data == 'refreshcss') refreshCSS();
+			};
+			if (sessionStorage && !sessionStorage.getItem('IsThisFirstTime_Log_From_LiveServer')) {
+				console.log('Live reload enabled.');
+				sessionStorage.setItem('IsThisFirstTime_Log_From_LiveServer', true);
+			}
+		})();
+	}
+	else {
+		console.error('Upgrade your browser. This Browser is NOT supported WebSocket for Live-Reloading.');
+	}
+	// ]]>
+</script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Panel</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      body {
+        font-family: "Inter", sans-serif;
+        background-color: #000000;
+        color: aliceblue;
+      }
+      .admin-section {
+        display: none; /* Hide admin section initially */
+      }
+      .admin-section.is-visible {
+        display: block;
+      }
+    </style>
+    <script type="module" src="js/auth.js"></script>
+  </head>
+  <body
+    class="min-h-screen antialiased flex flex-col items-center justify-start py-12"
+  >
+    <div
+      id="login-form-container"
+      class="bg-gray-900 p-8 rounded-lg shadow-xl w-full max-w-md"
+    >
+      <h2 class="text-3xl font-bold text-blue-400 mb-6 text-center">
+        Admin Login
+      </h2>
+      <form id="login-form">
+        <div class="mb-4">
+          <label for="email" class="block text-gray-300 text-sm font-bold mb-2"
+            >Email</label
+          >
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+        <div class="mb-6">
+          <label
+            for="password"
+            class="block text-gray-300 text-sm font-bold mb-2"
+            >Password</label
+          >
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+        <div class="flex items-center justify-between">
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Sign In
+          </button>
+        </div>
+        <p id="login-error" class="text-red-500 text-xs italic mt-4"></p>
+      </form>
+    </div>
+
+    <div
+      id="admin-panel-container"
+      class="admin-section bg-gray-900 p-8 rounded-lg shadow-xl w-full max-w-2xl"
+    >
+      <h2 class="text-3xl font-bold text-blue-400 mb-6 text-center">
+        Post a New Blog Article
+      </h2>
+      <form id="new-post-form">
+        <div class="mb-4">
+          <label for="title" class="block text-gray-300 text-sm font-bold mb-2"
+            >Title</label
+          >
+          <input
+            type="text"
+            id="title"
+            name="title"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="summary"
+            class="block text-gray-300 text-sm font-bold mb-2"
+            >Summary</label
+          >
+          <textarea
+            id="summary"
+            name="summary"
+            rows="3"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          ></textarea>
+        </div>
+        <div class="mb-4">
+          <label
+            for="category"
+            class="block text-gray-300 text-sm font-bold mb-2"
+            >Category</label
+          >
+          <input
+            type="text"
+            id="category"
+            name="category"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="imageUrl"
+            class="block text-gray-300 text-sm font-bold mb-2"
+            >Image URL</label
+          >
+          <input
+            type="url"
+            id="imageUrl"
+            name="imageUrl"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          />
+        </div>
+        <div class="mb-4">
+          <label
+            for="fullContent"
+            class="block text-gray-300 text-sm font-bold mb-2"
+            >Full Content</label
+          >
+          <textarea
+            id="fullContent"
+            name="fullContent"
+            rows="10"
+            class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            required
+          ></textarea>
+        </div>
+        <div class="flex items-center justify-between">
+          <button
+            type="submit"
+            class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+          >
+            Publish
+          </button>
+        </div>
+
+        <!--updates-->
+        <div class="mb-4">
+          <label class="block text-gray-300 text-sm font-bold mb-2"
+            >Article Type</label
+          >
+          <div class="mt-2">
+            <label class="inline-flex items-center">
+              <input
+                type="radio"
+                class="form-radio"
+                name="articleType"
+                value="blogPosts"
+                checked
+              />
+              <span class="ml-2">Blog Post</span>
+            </label>
+            <label class="inline-flex items-center ml-6">
+              <input
+                type="radio"
+                class="form-radio"
+                name="articleType"
+                value="projects"
+              />
+              <span class="ml-2">Project</span>
+            </label>
+          </div>
+        </div>
+        <!--end of updates-->
+      </form>
+
+      <p id="post-status" class="text-green-500 text-sm italic mt-4"></p>
+    </div>
+    <div
+      id="existing-posts-container"
+      class="admin-section bg-gray-900 p-8 rounded-lg shadow-xl w-full max-w-2xl mt-8"
+    >
+      <h2 class="text-3xl font-bold text-blue-400 mb-6 text-center">
+        Manage Existing Articles
+      </h2>
+      <div id="posts-list"></div>
+    </div>
+  </body>
+</html>
